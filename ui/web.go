@@ -92,6 +92,7 @@ func Register(r *route.Router, curConf func() config.Config, confPath string, re
 		if err != nil {
 			http.Error(w, fmt.Sprintf("failed to open old config: %s", err), http.StatusInternalServerError)
 			return
+
 		}
 
 		if _, err := io.Copy(configFile, req.Body); err != nil {
@@ -101,6 +102,7 @@ func Register(r *route.Router, curConf func() config.Config, confPath string, re
 		if err := configFile.Close(); err != nil {
 			http.Error(w, fmt.Sprintf("failed to save config: %s", err), http.StatusInternalServerError)
 			return
+
 		}
 
 		reloadCh <- errc

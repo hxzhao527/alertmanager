@@ -122,6 +122,7 @@ func (c *Coordinator) Reload() error {
 		"msg", "Loading configuration file",
 		"file", c.configFilePath,
 	)
+
 	if _, err := c.backupConfig(); err != nil {
 		level.Error(c.logger).Log(
 			"msg", "Failed to backup configuration",
@@ -157,6 +158,7 @@ func (c *Coordinator) Reload() error {
 // backupConfig will dump current config to file
 // the backup file will be created in the same directory with the original config file
 // filename parttern: {filename}-{date}-{hash}.yml
+
 func (c *Coordinator) backupConfig() (string, error) {
 	if c.config == nil {
 		return "", nil
@@ -166,6 +168,7 @@ func (c *Coordinator) backupConfig() (string, error) {
 	fileName = fmt.Sprintf("%s-%s-%f%s", fileName, time.Now().Format("20060102"), md5HashAsMetricValue([]byte(c.config.original)), fileExt)
 
 	fileName = filepath.Join(filepath.Dir(c.configFilePath), fileName)
+
 	return fileName, DumpFile(fileName, *c.config)
 }
 
